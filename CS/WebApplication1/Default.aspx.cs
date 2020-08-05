@@ -77,9 +77,7 @@ namespace WebApplication1 {
 
         protected void ASPxScheduler1_PopupMenuShowing(object sender, DevExpress.Web.ASPxScheduler.PopupMenuShowingEventArgs e) {
             if(e.Menu.MenuId == DevExpress.XtraScheduler.SchedulerMenuItemId.AppointmentMenu) {
-                e.Menu.ClientInstanceName = "AppointmentPopupMenu";
                 e.Menu.ClientSideEvents.PopUp = "OnClientPopupMenuShowing";
-                e.Menu.ClientSideEvents.ItemClick = "OnClientItemClick";
                 DevExpress.Web.MenuItem newItem = new DevExpress.Web.MenuItem();
                 newItem.Name = "CustomValues";
                 newItem.Text = "Custom values";
@@ -104,7 +102,7 @@ namespace WebApplication1 {
         protected void ASPxScheduler1_CustomCallback(object sender, DevExpress.Web.CallbackEventArgsBase e) {
             if (ASPxScheduler1.SelectedAppointments.Count > 0)
 	        {
-                ASPxScheduler1.SelectedAppointments[0].CustomFields["ApptCustomField"] = e.Parameter;
+                ASPxScheduler1.SelectedAppointments[0].CustomFields["ApptCustomField"] = e.Parameter.Replace("Item", "value");
 	        }            
         }
 
