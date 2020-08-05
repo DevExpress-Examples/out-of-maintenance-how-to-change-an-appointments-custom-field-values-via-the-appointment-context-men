@@ -1,7 +1,7 @@
-﻿<%@ Page Language="vb" AutoEventWireup="true" CodeBehind="Default.aspx.vb" Inherits="WebApplication1.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication1.Default" %>
 
-<%@ Register Assembly="DevExpress.Web.ASPxScheduler.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxScheduler" TagPrefix="dxwschs" %>
-<%@ Register Assembly="DevExpress.XtraScheduler.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.XtraScheduler" TagPrefix="cc1" %>
+<%@ Register Assembly="DevExpress.Web.ASPxScheduler.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxScheduler" TagPrefix="dxwschs" %>
+<%@ Register Assembly="DevExpress.XtraScheduler.v18.1.Core, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.XtraScheduler" TagPrefix="cc1" %>
 
 <!DOCTYPE html>
 
@@ -12,7 +12,6 @@
 <body>
     <script lang="cs">
         function OnClientPopupMenuShowing(s, e) {
-            // 1st approach
             if (MainScheduler.GetSelectedAppointmentIds().length > 0) {
                 var selectedAppointment = MainScheduler.GetAppointmentById(MainScheduler.GetSelectedAppointmentIds()[0]);
                 for (menuItemId in e.item.items) {
@@ -35,13 +34,20 @@
                 aspxSchedulerOnAptMenuClick(s, e);
             }
         }
+
+        function onMenuItemClicked(s, e) {
+            if (e.itemName.indexOf("Custom Item") != -1) {
+                MainScheduler.PerformCallback(e.itemName);
+            }
+        }
     </script>
 
     <form id="form1" runat="server">
         <div>
             <dxwschs:ASPxScheduler ID="ASPxScheduler1" runat="server" AppointmentDataSourceID="ObjectDataSourceAppointment" 
-                ClientIDMode="AutoID" Start="2013-10-30" GroupType="Date" ClientInstanceName="MainScheduler" OnCustomCallback="ASPxScheduler1_CustomCallback" OnInitAppointmentDisplayText="ASPxScheduler1_InitAppointmentDisplayText"
+                ClientIDMode="AutoID" GroupType="Date" ClientInstanceName="MainScheduler" OnCustomCallback="ASPxScheduler1_CustomCallback" OnInitAppointmentDisplayText="ASPxScheduler1_InitAppointmentDisplayText"
                 ResourceDataSourceID="ObjectDataSourceResources" OnPopupMenuShowing="ASPxScheduler1_PopupMenuShowing" OnInitClientAppointment="ASPxScheduler1_InitClientAppointment">
+                <ClientSideEvents MenuItemClicked="onMenuItemClicked" />
                 <Storage>
                     <Appointments AutoRetrieveId="True">
                         <Mappings 
