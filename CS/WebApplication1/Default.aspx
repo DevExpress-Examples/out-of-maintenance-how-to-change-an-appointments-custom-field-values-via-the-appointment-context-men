@@ -26,15 +26,6 @@
             }            
         }
 
-        function OnClientItemClick(s, e) {
-            if (e.item.name.indexOf("Custom Item") != -1) {
-                MainScheduler.PerformCallback(e.item.GetText());
-            }
-            else {
-                aspxSchedulerOnAptMenuClick(s, e);
-            }
-        }
-
         function onMenuItemClicked(s, e) {
             if (e.itemName.indexOf("Custom Item") != -1) {
                 MainScheduler.PerformCallback(e.itemName);
